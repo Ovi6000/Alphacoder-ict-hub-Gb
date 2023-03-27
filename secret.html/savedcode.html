@@ -1,0 +1,148 @@
+<title>My Notes</title>
+<style>
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f7f7f7;
+  }
+  
+  /* Navigation menu */
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    height: 60px;
+    padding: 0 20px;
+  }
+  
+  .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .navbar-menu {
+    list-style: none;
+    margin: 0;
+    display: flex;
+  }
+  
+  .navbar-menu li {
+    margin-left: 20px;
+  }
+  
+  .navbar-menu li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .navbar-menu li a:hover {
+    border-bottom: 2px solid #fff;
+  }
+  
+  /* Notes */
+  #noteList {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  #noteList li {
+    background-color: #fff;
+    margin: 20px;
+    padding: 20px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+    flex-basis: calc(33.33% - 40px);
+    display: flex;
+    flex-direction: column;
+  }
+  
+  #noteList li h2 {
+    font-size: 24px;
+    margin: 0 0 10px 0;
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 10px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  #noteList li p {
+    font-size: 18px;
+    margin: 0;
+    flex-grow: 1;
+  }
+  
+  /* No notes message */
+  .no-notes {
+    font-size: 18px;
+    text-align: center;
+    margin: 50px;
+  }
+</style>
+</head>
+<body>
+<nav class="navbar">
+  <a class="navbar-brand" href="#">My Notes</a>
+  <ul class="navbar-menu">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="codewiter.html">Code Writer</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+</nav>
+<main>
+  <h1>My Notes</h1>
+  <ul id="noteList">
+    <li>
+      <h2>Note Title</h2>
+      <p>Note body goes here</p>
+    </li>
+    <li>
+      <h2>Note Title</h2>
+      <p>Note body goes here</p>
+    </li>
+    <li>
+      <h2>Note Title</h2>
+      <p>Note body goes here</p>
+    </li>
+  </ul>
+  <p class="no-notes">No notes saved.</p>
+</main>
+    <script>
+      const noteList = document.getElementById('noteList');
+      const storedNotes = localStorage.getItem('notes');
+      if (storedNotes) {
+        const notes = JSON.parse(storedNotes);
+        notes.forEach((note) => {
+          const listItem = document.createElement('li');
+          const noteTitle = document.createElement('h2');
+          const noteBody = document.createElement('p');
+          noteTitle.textContent = note.title;
+          noteBody.textContent = note.body;
+          listItem.appendChild(noteTitle);
+          
+          noteList.appendChild(listItem);
+
+          // Add event listener to note title
+          noteTitle.addEventListener('click', () => {
+            // Display note body as notification
+            window.alert(note.body);
+          });
+        });
+      } else {
+        const noNotesMessage = document.createElement('p');
+        noNotesMessage.textContent = 'No notes saved.';
+        noteList.appendChild(noNotesMessage);
+      }
+    </script>
+  </body>
+</html>

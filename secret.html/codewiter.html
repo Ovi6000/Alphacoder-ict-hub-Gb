@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Notepad</title>   
+    <style>
+    
+	body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #F8F8F8;
+        color: #444;
+        line-height: 1.5;
+        padding: 20px;
+      }
+
+ .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #333;
+    color: #fff;
+    height: 60px;
+    padding: 0 20px;
+  }
+  
+  .navbar-brand {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .navbar-menu {
+    list-style: none;
+    margin: 0;
+    display: flex;
+  }
+  
+  .navbar-menu li {
+    margin-left: 20px;
+  }
+  
+  .navbar-menu li a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 18px;
+  }
+  
+  .navbar-menu li a:hover {
+    border-bottom: 2px solid #fff;
+  }
+  
+      h1 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 0;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      textarea {
+        height: 300px;
+      }
+
+      button {
+        background-color: #333;
+        color: #FFF;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #555;
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 5px;
+      }
+
+      a {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .note-container {
+        display: flex;
+      }
+
+      .note-form {
+        flex-grow: 1;
+        margin-right: 20px;
+      }
+
+      .note-list {
+        flex-shrink: 0;
+        width: 200px;
+        background-color: #FFF;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .note-list h2 {
+        font-size: 20px;
+        margin-top: 0;
+      }
+
+      .selected-note {
+        background-color: #EEE;
+      }
+  </style>
+
+
+
+  </head>
+  <body>
+
+    <nav class="navbar">
+        <a class="navbar-brand" href="#">My Notes</a>
+        <ul class="navbar-menu">
+          <li><a href="home.html">Home</a></li>
+          <li><a href="savedcode.html">Code List</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </nav>
+
+    <div>
+      <label for="noteTitle">Title:</label>
+      <input type="text" id="noteTitle">
+    </div>
+    <div>
+      <label for="noteBody">Note:</label>
+      <textarea id="noteBody"></textarea>
+    </div>
+    <div>
+      <button onclick="saveNote()">Save</button>
+    </div>
+    <div>
+      <h2>Notes</h2>
+      <ul id="noteList"></ul>
+    </div>
+    <script>
+      let notes = [];
+      let currentIndex = -1;
+      const noteTitleInput = document.getElementById('noteTitle');
+      const noteBodyInput = document.getElementById('noteBody');
+      const noteList = document.getElementById('noteList');
+      
+      loadNotes();
+      
+      function saveNote() {
+        const noteTitle = noteTitleInput.value;
+        const noteBody = noteBodyInput.value;
+        if (noteTitle && noteBody) {
+          if (currentIndex === -1) {
+            notes.push({ title: noteTitle, body: noteBody });
+          } else {
+            notes[currentIndex].title = noteTitle;
+            notes[currentIndex].body = noteBody;
+            currentIndex = -1;
+          }
+          localStorage.setItem('notes', JSON.stringify(notes));
+          displayNotes();
+          noteTitleInput.value = '';
+          noteBodyInput.value = '';
+        }
+      }
+
+      function loadNotes() {
+        const storedNotes = localStorage.getItem('notes');
+        if (storedNotes) {
+          notes = JSON.parse(storedNotes);
+          displayNotes();
+        }
+      }
+
+      function displayNotes() {
+        noteList.innerHTML = '';
+        notes.forEach((note, index) => {
+          const listItem = document.createElement('li');
+          const link = document.createElement('a');
+          link.href = '#';
+          link.textContent = note.title;
+          link.addEventListener('click', () => {
+            displayNoteBody(index);
+          });
+          listItem.appendChild(link);
+          noteList.appendChild(listItem);
+        });
+      }
+
+      function displayNoteBody(index) {
+        currentIndex = index;
+        const noteTitle = notes[index].title;
+        const noteBody = notes[index].body;
+        noteTitleInput.value = noteTitle;
+        noteBodyInput.value = noteBody;
+      }
+    </script>
+  </body>
+</html>

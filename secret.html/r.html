@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Notes</title>   
+    <style>
+      /* Add your CSS styles here */
+    </style>
+  </head>
+  <body>
+    <h1>My Notes</h1>
+    <ul id="noteList"></ul>
+    <script>
+      const noteList = document.getElementById('noteList');
+      const storedNotes = localStorage.getItem('notes');
+      if (storedNotes) {
+        const notes = JSON.parse(storedNotes);
+        notes.forEach((note) => {
+          const listItem = document.createElement('li');
+          const noteTitle = document.createElement('h2');
+          const noteBody = document.createElement('p');
+          noteTitle.textContent = note.title;
+          noteBody.textContent = note.body;
+          listItem.appendChild(noteTitle);
+          
+          noteList.appendChild(listItem);
+
+          // Add event listener to note title
+          noteTitle.addEventListener('click', () => {
+            // Display note body as notification
+            window.alert(note.body);
+          });
+        });
+      } else {
+        const noNotesMessage = document.createElement('p');
+        noNotesMessage.textContent = 'No notes saved.';
+        noteList.appendChild(noNotesMessage);
+      }
+    </script>
+  </body>
+</html>

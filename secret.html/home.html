@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My Website</title>
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #F1F1F1;
+        font-family: Arial, sans-serif;
+      }
+
+      .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: #212121;
+        color: white;
+        height: 60px;
+        padding: 0 20px;
+      }
+
+      .navbar a {
+        color: white;
+        text-decoration: none;
+        font-size: 20px;
+        margin-right: 20px;
+      }
+
+      .navbar a:hover {
+        text-decoration: underline;
+      }
+
+
+      .slider {
+  width: 100%;
+  overflow: hidden;
+}
+
+.slide-container {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.slide-container img {
+  width: 50%;
+  height: auto;
+}
+
+.slide-container img:not(:first-child) {
+  margin-left: -100%;
+}
+
+
+
+      .button-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        align-items: center;
+        margin-top: 50px;
+      }
+
+      .button {
+        width: 200px;
+        height: 200px;
+        background-color: #fff;
+        margin: 20px;
+        border-radius: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 24px;
+        font-weight: bold;
+        color: #212121;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease-in-out;
+      }
+
+      .button:hover {
+        background-color: #212121;
+        color: #fff;
+        transform: scale(1.1);
+        cursor: pointer;
+      }
+
+      .code {
+        background-color: #F44336;
+      }
+
+      .projects {
+        background-color: #4CAF50;
+      }
+
+      .game {
+        background-color: #2196F3;
+      }
+
+      .chat {
+        background-color: #9C27B0;
+      }
+
+    </style>
+  </head>
+  <body>
+    <nav class="navbar">
+      <a href="#">HOME</a>
+      <a href="about.html">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="slider">
+        <div class="slide-container">
+          <img src="land.jpg">
+          <img src="smoke.jpeg">
+          <img src="heart.jpg">
+        </div>
+      </div>
+    <div class="button-container">
+      <div class="button code"><a href="savedcode.html">Code List</a></div>
+      <div class="button projects">Projects</div>
+      <div class="button game">Game</div>
+      <div class="button chat">Chat</div>
+    </div>
+   
+      <script>slideIndex = 1;
+      showSlides(slideIndex);
+      
+      function showSlides(n) {
+        var i;
+        var slides = document.getElementsByClassName("slide-container")[0].getElementsByTagName("img");
+        if (n > slides.length) {
+          slideIndex = 1
+        }
+        if (n < 1) {
+          slideIndex = slides.length
+        }
+        for (i = 0; i < slides.length; i++) {
+          slides[i].style.marginLeft = "-" + (slideIndex - 1) * 100 + "%";
+        }
+      }
+      
+      function plusSlides(n) {
+        showSlides(slideIndex += n);
+      }
+      
+      setInterval(function() {plusSlides(1)}, 3000);
+      
+    </script> 
+      
+  </body>
+</html>

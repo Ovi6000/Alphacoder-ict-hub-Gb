@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Notepad</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #F8F8F8;
+        color: #444;
+        line-height: 1.5;
+        padding: 20px;
+      }
+
+      h1 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 0;
+      }
+
+      label {
+        display: block;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      input[type="text"],
+      textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        box-sizing: border-box;
+        font-size: 16px;
+        margin-bottom: 10px;
+      }
+
+      textarea {
+        height: 300px;
+      }
+
+      button {
+        background-color: #333;
+        color: #FFF;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 4px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #555;
+      }
+
+      ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      li {
+        margin-bottom: 5px;
+      }
+
+      a {
+        color: #333;
+        text-decoration: none;
+        font-weight: bold;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      .note-container {
+        display: flex;
+      }
+
+      .note-form {
+        flex-grow: 1;
+        margin-right: 20px;
+      }
+
+      .note-list {
+        flex-shrink: 0;
+        width: 200px;
+        background-color: #FFF;
+        border: 1px solid #CCC;
+        border-radius: 4px;
+        padding: 10px;
+        box-sizing: border-box;
+      }
+
+      .note-list h2 {
+        font-size: 20px;
+        margin-top: 0;
+      }
+
+      .selected-note {
+        background-color: #EEE;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Notepad</h1>
+    <div class="note-container">
+      <div class="note-form">
+        <label for="noteTitle">Title:</label>
+        <input type="text" id="noteTitle">
+        <label for="noteBody">Note:</label>
+        <textarea id="noteBody"></textarea>
+        <button id="saveButton">Save</button>
+      </div>
+      <div class="note-list">
+        <h2>Notes</h2>
+        <ul id="noteList"></ul>
+      </div>
+    </div>
+    <script>
+	// Initialize the notes array
+		let notes = [];
+		
+		// Get references to the HTML elements
+		const noteTitleInput = document.getElementById("noteTitle");
+		const noteBodyInput = document.getElementById("noteBody");
+		const noteList = document.getElementById("noteList");
+		const saveButton = document.getElementById("saveButton");
+		
+		// Load any existing notes from local storage
+		loadNotes();
+		
+		// Save the current note when the save button is clicked
+		saveButton.addEventListener("click", saveNote);
+		
+		// Add event listener to note list to handle clicking on a note title
+		noteList.addEventListener("click", selectNote);
+		
+		// Variable to keep track of the currently selected note
+		let selectedNoteId = null;
+		
+		/**
+		 * Load notes from local storage into the notes array
+		 */
+		function loadNotes() {
+		  const storedNotes = localStorage.getItem("notes");
+		  if (storedNotes) {
+			notes = JSON.parse(storedNotes);
+			displayNoteList();
+		  }
+		}
+		
+		/**
+		 * Save the current note to local storage and add it to the notes array
+		 */
+		function saveNote() {
+		  // Get the current timestamp
+		  const timestamp = Date.now();
+		
+		  // Create a new note object
+		  const note = {
+			id: timestamp,
+			title: noteTitleInput.value,
+			body: noteBodyInput.value,
+		  };
+		
+		  // Add the new note to the notes array
+		  notes.push(note);
+		
+		  // Save the notes array to local storage
+		  localStorage.setItem("notes", JSON.stringify(notes));
+		
+		  // Clear the note inputs
+		  noteTitleInput.value = "";
+		  noteBodyInput.value = "";
+		
+		  // Display the updated note list
+		  displayNoteList();
+		}
+		
+		/**
+		 * Display the note list in the HTML
+		 */
+		function displayNoteList() {
+		  noteList.innerHTML = "";
+		  notes.forEach((note) => {
+			const listItem = document.createElement("li");
+			const link = document.createElement("a");
+			link.setAttribute("href", "#");
+			link.setAttribute("data-note-id", note.id);
+			link.innerText = note.title;
+			if (note.id === selectedNoteId) {
+			  listItem.classList.add("selected-note");
+			  noteBodyInput.value = note.body;
+			}
+			listItem.appendChild(link);
+			noteList.appendChild(listItem);
+		  });
+		}
+		
+		/**
+		 * Handle clicking on a note title in the note list
+		 */
+		function selectNote(event) {
+		  if (event.target.tagName.toLowerCase() === "a") {
+			event.preventDefault();
+			const noteId = parseInt(event.target.getAttribute("data-note-id"));
+			const note = notes.find((note) => note.id === noteId);
+			if (note) {
+			  selectedNoteId = noteId;
+			  noteTitleInput.value = note.title;
+			  noteBodyInput.value = note.body;
+			  displayNoteList();
+			}
+		  }
+		}
+		
+		/**
+		 * Update an existing note with the given ID
+		 */
+		function updateNote() {
+		  const note = notes.find((note) => note.id === selectedNoteId);
+		  if (note) {
+			note.title = noteTitleInput.value;
+			note.body = noteBodyInput.value;
+			localStorage.setItem("notes", JSON.stringify(notes));
+			displayNoteList();
+		  }
+
+		  
+function loadNotes() {
+  const storedNotes = localStorage.getItem("notes");
+  if (storedNotes) {
+    notes = JSON.parse(storedNotes);
+    displayNoteList();
+  }
+}
+		}
+		
+</script>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Login Page</title>
+	<link rel="stylesheet" href="style.css">
+    <style>
+        .login-container {
+	max-width: 500px;
+	margin: 0 auto;
+	padding: 50px;
+	background-color: #f1f1f1;
+	border-radius: 10px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+	text-align: center;
+	margin-bottom: 30px;
+}
+
+form {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+label {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+input {
+	padding: 10px;
+	margin-bottom: 20px;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+}
+
+button {
+	padding: 10px;
+	background-color: #4CAF50;
+	color: white;
+	border: none;
+	border-radius: 5px;
+	box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+	cursor: pointer;
+}
+
+button:hover {
+	background-color: #3e8e41;
+}
+
+    </style>
+</head>
+<body>
+	<div class="login-container">
+		<h1>Login</h1>
+		<form>
+			<label for="username">Username:</label>
+			<input type="text" id="username" name="username" required>
+			<label for="password">Password:</label>
+			<input type="password" id="password" name="password" required>
+			<button type="submit" onclick="login()">Login</button>
+		</form>
+	</div>
+
+	<script>
+		function login() {
+			// Get username and password input values
+			var username = document.getElementById("username").value;
+			var password = document.getElementById("password").value;
+
+			// Check if username and password are correct
+			if (username === "yourusername" && password === "alpha2200") {
+				// Redirect to dashboard page if login is successful
+				window.location.href = "dashboard.html";
+			} else {
+				// Display error message if login is unsuccessful
+				alert("Incorrect username or password.");
+			}
+		}
+	</script>
+</body>
+</html>
